@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
+import { Header } from '@/components/Header'
 import { MainToolbar } from '@/components/MainToolbar'
 import { CodeEditor } from '@/components/CodeEditor'
 import { PreviewPanel } from '@/components/PreviewPanel'
@@ -9,12 +10,18 @@ import { analyzeCode, generateMockData } from '@/lib/codeAnalyzer'
 import { formatJson, copyToClipboard, downloadFile } from '@/lib/utils'
 import { useToast } from '@/components/Toast'
 import { Template } from '@/lib/templateService'
+import { jsonToXml, jsonToYaml, jsonToCsv, getMimeType } from '@/lib/converter'
 
 export default function Home() {
   const [sourceCode, setSourceCode] = useState('')
   const [generatedData, setGeneratedData] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [currentTemplate, setCurrentTemplate] = useState<string | null>(null)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [showConverter, setShowConverter] = useState(true) // Always show converter buttons
+  const [selectedFormat, setSelectedFormat] = useState('JSON')
+  const [convertedData, setConvertedData] = useState('')
+  const [showFormatDropdown, setShowFormatDropdown] = useState(false)
   const { addToast, ToastContainer } = useToast()
 
   const handleGenerate = async () => {
@@ -39,10 +46,14 @@ export default function Home() {
       // If no structure found, generate sample data
       if (Object.keys(mockData).length === 0) {
         const sampleData = generateSampleDataFromCode(sourceCode)
-        setGeneratedData(JSON.stringify(sampleData, null, 2))
+        const jsonData = JSON.stringify(sampleData, null, 2)
+        setGeneratedData(jsonData)
+        setConvertedData(jsonData) // Set initial converted data to JSON
         addToast('Generated sample mock data from your code', 'success')
       } else {
-        setGeneratedData(JSON.stringify(mockData, null, 2))
+        const jsonData = JSON.stringify(mockData, null, 2)
+        setGeneratedData(jsonData)
+        setConvertedData(jsonData) // Set initial converted data to JSON
         addToast('Successfully generated mock data from code structure', 'success')
       }
     } catch (error) {
@@ -64,7 +75,9 @@ export default function Home() {
       }
       // Fallback to sample data only for other errors
       const fallbackData = generateSampleDataFromCode(sourceCode)
-      setGeneratedData(JSON.stringify(fallbackData, null, 2))
+      const jsonData = JSON.stringify(fallbackData, null, 2)
+      setGeneratedData(jsonData)
+      setConvertedData(jsonData) // Set initial converted data to JSON
     } finally {
       setIsGenerating(false)
     }
@@ -142,7 +155,9 @@ export default function Home() {
   const handleClear = () => {
     setSourceCode('')
     setGeneratedData('')
+    setConvertedData('') // Clear converted data
     setCurrentTemplate(null)
+    setShowFormatDropdown(false) // Hide dropdown
     addToast('Cleared all content', 'info')
   }
 
@@ -210,29 +225,168 @@ export default function Home() {
 
   const handleClearGeneratedData = () => {
     setGeneratedData('')
+    setShowFormatDropdown(false) // Hide dropdown
   }
 
-  return (
-    <div className="main-layout bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white flex overflow-hidden">
-      <JsonGeneratorSidebar 
-        onTemplateSelect={handleTemplateSelect}
-        onCreateNew={handleCreateNewTemplate}
-        onSearch={(query) => {
-          console.log('Search query:', query)
-        }}
-        currentContent={sourceCode}
-        onContentChange={handleContentChange}
-        onClearGeneratedData={handleClearGeneratedData}
-      />
+  // Conversion functions
+  const convertToFormat = (format: string) => {
+    try {
+      const jsonData = JSON.parse(generatedData)
+      let converted = ''
       
-      <div className="main-content flex flex-col min-w-0 overflow-hidden">
+      switch (format) {
+        case 'XML':
+          converted = jsonToXml(jsonData)
+          break
+        case 'YAML':
+          converted = jsonToYaml(jsonData)
+          break
+        case 'CSV':
+          converted = jsonToCsv(jsonData)
+          break
+        default:
+          converted = generatedData
+      }
+      
+      setConvertedData(converted)
+      setSelectedFormat(format)
+      setShowFormatDropdown(false)
+      addToast(`Converted to ${format} successfully!`, 'success')
+    } catch (error) {
+      addToast('Failed to convert data. Please check if the JSON is valid.', 'error')
+    }
+  }
+
+  const handleConverterClick = () => {
+    setShowFormatDropdown(!showFormatDropdown)
+  }
+
+  const handleExportConverted = () => {
+    const extension = selectedFormat.toLowerCase()
+    const mimeType = getMimeType(selectedFormat)
+    downloadFile(convertedData, `converted-data.${extension}`, mimeType)
+    addToast(`Downloaded as ${selectedFormat} file`, 'success')
+  }
+
+  // Dual scroll functionality - Monaco content first, then page
+  React.useEffect(() => {
+    const setupDualScroll = () => {
+      // Find all Monaco editors
+      const monacoEditors = document.querySelectorAll('.monaco-editor')
+      
+      monacoEditors.forEach(editor => {
+        const editorElement = editor as HTMLElement
+        
+        // Remove any existing wheel handlers
+        editorElement.onwheel = null
+        
+        // Add dual scroll handler
+        editorElement.addEventListener('wheel', (e) => {
+          // Check if container is empty
+          const container = editorElement.closest('[class*="flex-1 flex flex-col border-r border-gray-300"], [class*="flex-1 flex flex-col border-l border-gray-300"]')
+          let isEmpty = false
+          
+          if (container) {
+            const isCodeEditor = container.className.includes('border-r')
+            isEmpty = isCodeEditor ? (!sourceCode || sourceCode.trim() === '') : (!generatedData || generatedData.trim() === '')
+          }
+          
+          // If empty, always scroll the page
+          if (isEmpty) {
+            window.scrollBy(0, e.deltaY)
+            e.preventDefault()
+            e.stopPropagation()
+            return
+          }
+          
+          // For containers with content, check Monaco scroll state
+          const scrollContainer = editorElement.querySelector('.monaco-scrollable-element') as HTMLElement
+          if (scrollContainer) {
+            const isAtTop = scrollContainer.scrollTop <= 0
+            const isAtBottom = scrollContainer.scrollTop >= (scrollContainer.scrollHeight - scrollContainer.clientHeight)
+            
+            // If Monaco can't scroll further, scroll the page
+            if ((e.deltaY < 0 && isAtTop) || (e.deltaY > 0 && isAtBottom)) {
+              window.scrollBy(0, e.deltaY)
+              e.preventDefault()
+              e.stopPropagation()
+            }
+            // Otherwise, let Monaco handle the scroll (don't prevent default)
+          } else {
+            // If no scroll container found, scroll the page
+            window.scrollBy(0, e.deltaY)
+            e.preventDefault()
+            e.stopPropagation()
+          }
+        }, { passive: false })
+      })
+    }
+
+    // Run immediately
+    setupDualScroll()
+    
+    // Run again after a delay to catch dynamically loaded Monaco editors
+    const timer = setTimeout(setupDualScroll, 1000)
+    
+    // Also run when content changes
+    const observer = new MutationObserver(setupDualScroll)
+    observer.observe(document.body, { childList: true, subtree: true })
+    
+    return () => {
+      clearTimeout(timer)
+      observer.disconnect()
+    }
+  }, [sourceCode, generatedData])
+
+  return (
+    <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white flex flex-col">
+      <div className="main-layout flex flex-col overflow-hidden flex-1">
+        <Header 
+          onMenuClick={() => {}}
+          onExport={handleExport}
+          onCopy={handleCopy}
+          onSignIn={() => addToast('Sign In functionality coming soon', 'info')}
+          hasData={!!generatedData}
+        />
+
+        {/* Top Ad Space - Below Header */}
+        <div className="w-full bg-gray-200 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600">
+          <div className="h-20 flex items-center justify-center">
+            <div className="text-gray-500 dark:text-gray-400 text-sm">
+              Advertisement Space - 728x90
+            </div>
+          </div>
+        </div>
+      
+      <div className="flex flex-1 min-h-0">
+        {sidebarOpen && (
+          <div className="flex-shrink-0 h-full">
+            <JsonGeneratorSidebar 
+              onTemplateSelect={handleTemplateSelect}
+              onCreateNew={handleCreateNewTemplate}
+              onSearch={(query) => {
+                console.log('Search query:', query)
+              }}
+              currentContent={sourceCode}
+              onContentChange={handleContentChange}
+              onClearGeneratedData={handleClearGeneratedData}
+            />
+          </div>
+        )}
+        
+        <div className="main-content flex flex-col min-w-0 overflow-hidden">
         <MainToolbar 
           onClear={handleClear}
           onSave={() => addToast('Save functionality coming soon', 'info')}
-          onExport={handleExport}
-          onCopy={handleCopy}
           onUpload={handleUpload}
-          hasData={!!generatedData}
+          onGenerate={handleGenerate}
+          isGenerating={isGenerating}
+          showConverter={showConverter}
+          selectedFormat={selectedFormat}
+          showFormatDropdown={showFormatDropdown}
+          onConverterClick={handleConverterClick}
+          onFormatSelect={convertToFormat}
+          onExportConverted={handleExportConverted}
         />
         
         <div className="flex-1 flex min-h-0 overflow-hidden">
@@ -241,19 +395,29 @@ export default function Home() {
               value={sourceCode}
               onChange={setSourceCode}
               placeholder="Paste your source code here or drag & drop a file..."
-              onGenerate={handleGenerate}
-              isGenerating={isGenerating}
             />
             
             <PreviewPanel
-              data={generatedData}
+              data={convertedData || generatedData}
               isLoading={isGenerating}
               onCopy={handleCopy}
-              onDownload={handleExport}
+              onDownload={handleExportConverted}
             />
           </div>
         </div>
+        </div>
       </div>
+      </div>
+
+      {/* Bottom Ad Space */}
+      <div className="w-full bg-gray-200 dark:bg-gray-700 border-t border-gray-300 dark:border-gray-600">
+        <div className="h-20 flex items-center justify-center">
+          <div className="text-gray-500 dark:text-gray-400 text-sm">
+            Advertisement Space - 728x90
+          </div>
+        </div>
+      </div>
+
       <ToastContainer />
     </div>
   )

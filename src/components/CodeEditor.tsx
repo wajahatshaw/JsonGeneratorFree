@@ -20,11 +20,9 @@ interface CodeEditorProps {
   value: string
   onChange: (value: string) => void
   placeholder?: string
-  onGenerate?: () => void
-  isGenerating?: boolean
 }
 
-export function CodeEditor({ value, onChange, placeholder, onGenerate, isGenerating }: CodeEditorProps) {
+export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
   const [isDragOver, setIsDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isDarkMode, setIsDarkMode] = useState(false)
@@ -46,6 +44,7 @@ export function CodeEditor({ value, onChange, placeholder, onGenerate, isGenerat
     
     return () => observer.disconnect()
   }, [])
+
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
@@ -93,24 +92,8 @@ export function CodeEditor({ value, onChange, placeholder, onGenerate, isGenerat
     <div className="flex-1 flex flex-col border-r border-gray-300 min-h-0 max-h-full min-w-0 overflow-hidden bg-white dark:border-gray-700 dark:bg-gray-900">
       <div className="panel-header flex items-center justify-between flex-shrink-0 bg-gray-50 border-b border-gray-200 px-4 py-3 dark:bg-gray-800 dark:border-gray-700">
         <div className="flex items-center space-x-2">
-        {onGenerate && (
-            <button 
-              onClick={onGenerate}
-              disabled={isGenerating}
-              className="btn-primary flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed ml-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white"
-            >
-              <Sparkles className="w-4 h-4" />
-              <TextShimmer 
-                duration={1.5}
-                className="text-sm font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.400)] dark:[--base-gradient-color:theme(colors.blue.100)]"
-              >
-                {isGenerating ? 'Generating...' : 'Generate'}
-              </TextShimmer>
-            </button>
-          )}
            <Code className="w-4 h-4 text-blue-500 dark:text-blue-400" />
            <h3 className="font-semibold text-gray-900 dark:text-white">Source Code</h3>
-       
         </div>
         <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
           <FileText className="w-3 h-3" />
@@ -119,7 +102,7 @@ export function CodeEditor({ value, onChange, placeholder, onGenerate, isGenerat
       </div>
       
       <div 
-        className="flex-1 relative min-h-0 overflow-hidden"
+        className="flex-1 relative min-h-0"
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}

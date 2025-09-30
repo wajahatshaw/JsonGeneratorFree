@@ -110,7 +110,7 @@ export function JsonGeneratorSidebar({
 
   return (
     <Sidebar open={open} setOpen={setOpen}>
-      <SidebarBody className="justify-between gap-10 h-full">
+      <SidebarBody className="justify-between gap-10 h-full min-h-full">
         <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden min-h-0">
           {open ? <Logo /> : <LogoIcon />}
           

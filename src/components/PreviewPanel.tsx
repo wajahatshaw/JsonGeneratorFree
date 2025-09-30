@@ -47,6 +47,7 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
     return () => observer.disconnect()
   }, [])
 
+
   const handleCopy = async () => {
     if (onCopy) {
       onCopy()
