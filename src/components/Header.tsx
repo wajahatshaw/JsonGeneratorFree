@@ -22,15 +22,15 @@ export function Header({ onMenuClick }: HeaderProps) {
   const [showProfile, setShowProfile] = useState(false)
 
   return (
-    <header className="bg-gray-800 border-b border-gray-700 px-4 py-3">
+    <header className="bg-gray-100 border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700 px-4 py-3">
       <div className="flex items-center justify-between">
         {/* Left side - Branding */}
         <div className="flex items-center space-x-4">
           <button
             onClick={onMenuClick}
-            className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
           
           <div className="flex items-center space-x-3">
@@ -39,8 +39,8 @@ export function Header({ onMenuClick }: HeaderProps) {
                 <Code className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white">JsonGeneratorFree</h1>
-                <p className="text-sm text-gray-400">AI-Powered Mock Data Generator</p>
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white">JsonGeneratorFree</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">AI-Powered Mock Data Generator</p>
               </div>
             </div>
           </div>
@@ -48,28 +48,28 @@ export function Header({ onMenuClick }: HeaderProps) {
 
         {/* Right side - Actions */}
         <div className="flex items-center space-x-2">
-          <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-            <Download className="w-5 h-5" />
+          <button className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+            <Download className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
           
-          <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-            <Share2 className="w-5 h-5" />
+          <button className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+            <Share2 className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
           
           <button 
             onClick={() => setShowSettings(!showSettings)}
-            className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
-            <Settings className="w-5 h-5" />
+            <Settings className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
           
-          <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-            <Sun className="w-5 h-5" />
+          <button className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+            <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
           
           <button 
             onClick={() => setShowSettings(!showSettings)}
-            className="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+            className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
           >
             Clear All
           </button>
@@ -86,15 +86,15 @@ export function Header({ onMenuClick }: HeaderProps) {
 
       {/* Settings Dropdown */}
       {showSettings && (
-        <div className="absolute right-4 top-16 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-50 min-w-48">
+        <div className="absolute right-4 top-16 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 min-w-48">
           <div className="p-2">
-            <button className="w-full text-left px-3 py-2 hover:bg-gray-700 rounded text-sm">
+            <button className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300">
               Export Settings
             </button>
-            <button className="w-full text-left px-3 py-2 hover:bg-gray-700 rounded text-sm">
+            <button className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300">
               Theme Settings
             </button>
-            <button className="w-full text-left px-3 py-2 hover:bg-gray-700 rounded text-sm">
+            <button className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300">
               API Settings
             </button>
           </div>
@@ -103,16 +103,16 @@ export function Header({ onMenuClick }: HeaderProps) {
 
       {/* Profile Dropdown */}
       {showProfile && (
-        <div className="absolute right-4 top-16 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-50 min-w-48">
+        <div className="absolute right-4 top-16 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 min-w-48">
           <div className="p-2">
-            <button className="w-full text-left px-3 py-2 hover:bg-gray-700 rounded text-sm">
+            <button className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300">
               Profile Settings
             </button>
-            <button className="w-full text-left px-3 py-2 hover:bg-gray-700 rounded text-sm">
+            <button className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300">
               Access Tokens
             </button>
-            <hr className="my-2 border-gray-700" />
-            <button className="w-full text-left px-3 py-2 hover:bg-gray-700 rounded text-sm text-red-400">
+            <hr className="my-2 border-gray-200 dark:border-gray-700" />
+            <button className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm text-red-500 dark:text-red-400">
               Logout
             </button>
           </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import React from 'react'
 import dynamic from 'next/dynamic'
 import { FileText, Code, Sparkles } from 'lucide-react'
 import { TextShimmer } from '@/components/ui/text-shimmer'
@@ -26,6 +27,25 @@ interface CodeEditorProps {
 export function CodeEditor({ value, onChange, placeholder, onGenerate, isGenerating }: CodeEditorProps) {
   const [isDragOver, setIsDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isDarkMode, setIsDarkMode] = useState(false)
+
+  // Check for dark mode on mount and when theme changes
+  React.useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'))
+    }
+    
+    checkDarkMode()
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(checkDarkMode)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    })
+    
+    return () => observer.disconnect()
+  }, [])
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
@@ -118,13 +138,13 @@ export function CodeEditor({ value, onChange, placeholder, onGenerate, isGenerat
           defaultLanguage="typescript"
           value={value}
           onChange={handleEditorChange}
+          theme={isDarkMode ? 'vs-dark' : 'vs-light'}
           options={{
             minimap: { enabled: false },
             scrollBeyondLastLine: false,
             fontSize: 14,
             lineHeight: 1.5,
             fontFamily: 'JetBrains Mono, Monaco, Consolas, monospace',
-            theme: 'vs-dark',
             automaticLayout: true,
             padding: { top: 16, bottom: 16 },
             lineNumbers: 'on',
@@ -140,7 +160,7 @@ export function CodeEditor({ value, onChange, placeholder, onGenerate, isGenerat
         
         {!value && (
           <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-            <div className="text-center text-gray-500">
+            <div className="text-center text-gray-500 dark:text-gray-400">
               <Code className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p className="text-lg font-medium mb-2">Ready to analyze your code</p>
               <p className="text-sm">{placeholder}</p>
