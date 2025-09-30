@@ -85,7 +85,7 @@ a {
 }
 
 .dark .monaco-editor .margin {
-  background-color: #1e293b !important;
+  background-color: #0f172a !important;
 }
 
 .monaco-editor .monaco-editor-background {
@@ -93,6 +93,23 @@ a {
 }
 
 .dark .monaco-editor .monaco-editor-background {
+  background-color: #0f172a !important;
+}
+
+/* Ensure both editors have identical backgrounds */
+.monaco-editor .view-overlays {
+  background-color: #ffffff !important;
+}
+
+.dark .monaco-editor .view-overlays {
+  background-color: #0f172a !important;
+}
+
+.monaco-editor .view-lines {
+  background-color: #ffffff !important;
+}
+
+.dark .monaco-editor .view-lines {
   background-color: #0f172a !important;
 }
 

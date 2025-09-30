@@ -159,7 +159,7 @@ export function CodeEditor({ value, onChange, placeholder, onGenerate, isGenerat
         />
         
         {!value && (
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-white dark:bg-gray-900">
             <div className="text-center text-gray-500 dark:text-gray-400">
               <Code className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p className="text-lg font-medium mb-2">Ready to analyze your code</p>

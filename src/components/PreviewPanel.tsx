@@ -10,7 +10,7 @@ import { QuantumPulseLoader } from '@/components/ui/quantum-pulse-loader'
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+    <div className="w-full h-full flex items-center justify-center bg-white dark:bg-gray-900">
       <div className="text-gray-600 dark:text-gray-400">Loading preview...</div>
     </div>
   )
@@ -69,7 +69,7 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
 
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 max-h-full min-w-0 overflow-hidden bg-white dark:bg-gray-900">
+    <div className="flex-1 flex flex-col border-l border-gray-300 min-h-0 max-h-full min-w-0  bg-white dark:border-gray-700 dark:bg-gray-900">
       <div className="panel-header flex items-center justify-between flex-shrink-0 bg-gray-50 border-b border-gray-200 px-4 py-3 dark:bg-gray-800 dark:border-gray-700">
         <div className="flex items-center space-x-2">
           <FileText className="w-4 h-4 text-green-500 dark:text-green-400" />
@@ -104,7 +104,7 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
       
       <div className="flex-1 relative min-h-0 overflow-hidden">
         {isLoading ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+          <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-gray-900">
             <QuantumPulseLoader />
           </div>
         ) : data ? (
@@ -114,7 +114,7 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
               height="100%"
               defaultLanguage="json"
               value={viewMode === 'formatted' ? formatJson(data) : data}
-              theme={isDarkMode ? 'vs-dark' : 'vs'}
+              theme={isDarkMode ? 'vs-dark' : 'vs-light'}
               options={{
                 minimap: { enabled: false },
                 scrollBeyondLastLine: false,
@@ -154,7 +154,7 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
             </div>
           </>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+          <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-gray-900">
             <div className="text-center text-gray-500 dark:text-gray-400">
               <Eye className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p className="text-lg font-medium mb-2">No data generated yet</p>
