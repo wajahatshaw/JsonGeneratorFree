@@ -6,6 +6,7 @@ import { MainToolbar } from '@/components/MainToolbar'
 import { CodeEditor } from '@/components/CodeEditor'
 import { PreviewPanel } from '@/components/PreviewPanel'
 import { JsonGeneratorSidebar } from '@/components/ui/JsonGeneratorSidebar'
+import { AdSense } from '@/components/AdSense'
 import { analyzeCode, generateMockData } from '@/lib/codeAnalyzer'
 import { formatJson, copyToClipboard, downloadFile } from '@/lib/utils'
 import { useToast } from '@/components/Toast'
@@ -369,10 +370,12 @@ export default function Home() {
 
         {/* Top Ad Space - Below Header */}
         <div className="w-full bg-gray-200 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600">
-          <div className="h-12 sm:h-20 flex items-center justify-center px-2">
-            <div className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
-              Advertisement Space
-            </div>
+          <div className="min-h-[90px] sm:min-h-[90px] flex items-center justify-center px-2 py-2">
+            <AdSense 
+              adSlot="1234567890"
+              adFormat="horizontal"
+              className="w-full max-w-7xl"
+            />
           </div>
         </div>
       
@@ -448,10 +451,12 @@ export default function Home() {
 
       {/* Bottom Ad Space */}
       <div className="w-full bg-gray-200 dark:bg-gray-700 border-t border-gray-300 dark:border-gray-600">
-        <div className="h-12 sm:h-20 flex items-center justify-center px-2">
-          <div className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
-            Advertisement Space
-          </div>
+        <div className="min-h-[90px] sm:min-h-[90px] flex items-center justify-center px-2 py-2">
+          <AdSense 
+            adSlot="9876543210"
+            adFormat="horizontal"
+            className="w-full max-w-7xl"
+          />
         </div>
       </div>
 
