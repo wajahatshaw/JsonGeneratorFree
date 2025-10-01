@@ -123,3 +123,5 @@ temp/
 *.sln
 *.sw?
 t
+# Local Netlify folder
+.netlify
