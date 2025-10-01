@@ -21,11 +21,18 @@
 html,
 body {
   max-width: 100vw;
+  width: 100%;
   overflow-x: hidden;
   height: 100vh;
   background-color: var(--background);
   color: var(--foreground);
   font-family: 'Inter', system-ui, sans-serif;
+}
+
+#__next {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
@@ -187,12 +194,18 @@ a {
 .main-content {
   flex: 1;
   min-width: 0;
-  max-width: calc(100vw - 60px); /* Account for minimum sidebar width */
+  width: 100%;
   overflow: hidden;
 }
 
-.main-content-sidebar-open {
-  max-width: calc(100vw - 300px); /* Account for full sidebar width */
+@media (min-width: 1024px) {
+  .main-content {
+    max-width: calc(100vw - 60px); /* Account for minimum sidebar width */
+  }
+  
+  .main-content-sidebar-open {
+    max-width: calc(100vw - 300px); /* Account for full sidebar width */
+  }
 }
 
 /* Quantum Pulse Loader Styles */
@@ -306,9 +319,9 @@ a {
   overflow: auto !important;
 }
 
-/* Mobile Responsive Styles */
-@media (max-width: 768px) {
-  /* Reduce ad space on mobile */
+/* Mobile & Tablet Responsive Styles */
+@media (max-width: 1024px) {
+  /* Reduce ad space on mobile/tablet */
   .ad-space {
     min-height: 50px !important;
   }
@@ -318,17 +331,25 @@ a {
     overflow-x: hidden;
   }
   
-  /* Adjust main layout for mobile */
+  /* Adjust main layout for mobile/tablet */
   .main-layout {
     max-width: 100vw;
   }
   
+  /* Touch-friendly buttons */
+  button {
+    min-height: 40px;
+  }
+}
+
+/* Mobile specific styles */
+@media (max-width: 768px) {
   /* Mobile editor adjustments */
   .monaco-editor {
     font-size: 12px !important;
   }
   
-  /* Touch-friendly buttons */
+  /* Smaller button heights on very small screens */
   button {
     min-height: 36px;
   }
@@ -339,11 +360,9 @@ a {
   .monaco-editor {
     font-size: 11px !important;
   }
-}
-
-/* Extra small breakpoint for hiding text on very small screens */
-@media (min-width: 360px) {
-  .xs\:inline {
-    display: inline;
+  
+  /* Even smaller buttons on tiny screens */
+  button {
+    min-height: 32px;
   }
 }

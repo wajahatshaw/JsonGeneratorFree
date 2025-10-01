@@ -29,12 +29,12 @@ export function Header({ onMenuClick, onExport, onCopy, onSignIn, hasData = fals
   return (
     <header className="bg-gray-100 border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700 px-2 sm:px-4 py-2 sm:py-3">
       <div className="flex items-center justify-between">
-        {/* Left side - Menu Button (Mobile) + Branding */}
+        {/* Left side - Menu Button (Mobile/Tablet) + Branding */}
         <div className="flex items-center space-x-2 sm:space-x-4">
-          {/* Mobile Menu Button */}
+          {/* Mobile/Tablet Menu Button */}
           <button
             onClick={onMenuClick}
-            className="md:hidden p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="lg:hidden p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
             aria-label="Toggle menu"
           >
             <Menu className="w-5 h-5 text-gray-700 dark:text-gray-300" />

@@ -28,10 +28,12 @@ export default function Home() {
   // Detect mobile on mount and window resize
   React.useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth < 768
+      const mobile = window.innerWidth < 1024 // Changed to 1024px for better tablet handling
       setIsMobile(mobile)
       if (mobile) {
-        setSidebarOpen(false) // Close sidebar on mobile by default
+        setSidebarOpen(false) // Close sidebar on mobile/tablet by default
+      } else {
+        setSidebarOpen(true) // Open sidebar on desktop
       }
     }
     
@@ -355,8 +357,8 @@ export default function Home() {
   }, [sourceCode, generatedData])
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white flex flex-col">
-      <div className="main-layout flex flex-col overflow-hidden flex-1">
+    <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white flex flex-col w-full max-w-full overflow-x-hidden">
+      <div className="main-layout flex flex-col overflow-hidden flex-1 w-full">
         <Header 
           onMenuClick={() => setSidebarOpen(!sidebarOpen)}
           onExport={handleExport}
@@ -374,14 +376,14 @@ export default function Home() {
           </div>
         </div>
       
-      <div className="flex flex-1 min-h-0 relative">
-        {/* Sidebar - Desktop: always visible, Mobile: overlay drawer */}
+      <div className="flex flex-1 min-h-0 relative w-full">
+        {/* Sidebar - Desktop: always visible, Mobile/Tablet: overlay drawer */}
         {sidebarOpen && (
           <>
-            {/* Mobile Overlay */}
+            {/* Mobile/Tablet Overlay */}
             {isMobile && (
               <div 
-                className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
                 onClick={() => setSidebarOpen(false)}
               />
             )}
@@ -389,7 +391,7 @@ export default function Home() {
             {/* Sidebar Container */}
             <div className={`
               ${isMobile ? 'fixed left-0 top-0 bottom-0 z-50' : 'flex-shrink-0 h-full'}
-              md:relative md:z-auto
+              lg:relative lg:z-auto
             `}>
               <JsonGeneratorSidebar 
                 onTemplateSelect={handleTemplateSelect}
@@ -405,7 +407,7 @@ export default function Home() {
           </>
         )}
         
-        <div className="main-content flex flex-col min-w-0 overflow-hidden">
+        <div className="main-content flex flex-col min-w-0 flex-1 w-full overflow-hidden">
         <MainToolbar 
           onClear={handleClear}
           onSave={() => addToast('Save functionality coming soon', 'info')}
@@ -420,9 +422,9 @@ export default function Home() {
           onExportConverted={handleExportConverted}
         />
         
-        <div className="flex-1 flex flex-col md:flex-row min-h-0 p-4">
-          <div className="flex-1 flex flex-col md:flex-row min-h-0 max-h-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
-            <div className="flex-1 min-h-[300px] md:min-h-0 md:border-r border-gray-300 dark:border-gray-700 flex flex-col">
+        <div className="flex-1 flex flex-col md:flex-row min-h-0 p-2 sm:p-4 w-full">
+          <div className="flex-1 flex flex-col md:flex-row min-h-0 max-h-full w-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
+            <div className="flex-1 min-h-[300px] md:min-h-0 md:border-r border-gray-300 dark:border-gray-700 flex flex-col w-full md:w-1/2">
               <CodeEditor
                 value={sourceCode}
                 onChange={setSourceCode}
@@ -430,7 +432,7 @@ export default function Home() {
               />
             </div>
             
-            <div className="flex-1 min-h-[300px] md:min-h-0 border-t md:border-t-0 flex flex-col">
+            <div className="flex-1 min-h-[300px] md:min-h-0 border-t md:border-t-0 flex flex-col w-full md:w-1/2">
               <PreviewPanel
                 data={convertedData || generatedData}
                 isLoading={isGenerating}

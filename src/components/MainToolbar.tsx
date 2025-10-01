@@ -40,9 +40,9 @@ export function MainToolbar({
 }: MainToolbarProps) {
   return (
     <div className="bg-gray-100 border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700 px-2 sm:px-4 py-2 sm:py-3">
-      {/* Mobile Layout - Stacked */}
-      <div className="flex flex-col sm:hidden space-y-2">
-        {/* Generate Button - Full width on mobile */}
+      {/* Mobile/Tablet Layout - Stacked (< 1024px) */}
+      <div className="flex flex-col lg:hidden space-y-2">
+        {/* Generate Button - Full width on mobile/tablet */}
         {onGenerate && (
           <button 
             onClick={onGenerate}
@@ -60,48 +60,48 @@ export function MainToolbar({
         )}
         
         {/* Action Buttons Row */}
-        <div className="flex items-center justify-between space-x-1">
-          <div className="flex items-center space-x-1 flex-1">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 flex-1">
             <button 
               onClick={onUpload}
-              className="btn-secondary flex items-center justify-center space-x-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-2 py-1.5 rounded text-xs flex-1"
+              className="btn-secondary flex items-center justify-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs flex-1 min-w-0"
             >
-              <Upload className="w-3 h-3" />
-              <span className="hidden xs:inline">Upload</span>
+              <Upload className="w-3.5 h-3.5 flex-shrink-0" />
+              <span className="hidden sm:inline truncate">Upload</span>
             </button>
             
             <button 
               onClick={onSave}
-              className="btn-secondary flex items-center justify-center space-x-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-2 py-1.5 rounded text-xs flex-1"
+              className="btn-secondary flex items-center justify-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs flex-1 min-w-0"
             >
-              <Save className="w-3 h-3" />
-              <span className="hidden xs:inline">Save</span>
+              <Save className="w-3.5 h-3.5 flex-shrink-0" />
+              <span className="hidden sm:inline truncate">Save</span>
             </button>
             
             <button 
               onClick={onClear}
-              className="btn-secondary flex items-center justify-center space-x-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-2 py-1.5 rounded text-xs flex-1"
+              className="btn-secondary flex items-center justify-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs flex-1 min-w-0"
             >
-              <Trash2 className="w-3 h-3" />
-              <span className="hidden xs:inline">Clear</span>
+              <Trash2 className="w-3.5 h-3.5 flex-shrink-0" />
+              <span className="hidden sm:inline truncate">Clear</span>
             </button>
           </div>
           
           {/* Converter Buttons */}
           {showConverter && (
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center gap-2">
               <button 
                 onClick={onConverterClick}
-                className="btn-secondary flex items-center justify-center space-x-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-2 py-1.5 rounded text-xs"
+                className="btn-secondary flex items-center justify-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs whitespace-nowrap"
               >
-                <ArrowRightLeft className="w-3 h-3" />
-                <span className="hidden xs:inline">Convert</span>
+                <ArrowRightLeft className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Convert</span>
               </button>
               
               {showFormatDropdown && (
                 <div className="relative">
                   <button 
-                    className="btn-secondary flex items-center space-x-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-2 py-1.5 rounded text-xs"
+                    className="btn-secondary flex items-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs whitespace-nowrap"
                   >
                     <span>{selectedFormat}</span>
                     <ChevronDown className="w-3 h-3" />
@@ -125,18 +125,18 @@ export function MainToolbar({
               
               <button 
                 onClick={onExportConverted}
-                className="btn-secondary flex items-center justify-center space-x-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-2 py-1.5 rounded text-xs"
+                className="btn-secondary flex items-center justify-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs whitespace-nowrap"
               >
-                <Download className="w-3 h-3" />
-                <span className="hidden xs:inline">Export</span>
+                <Download className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Export</span>
               </button>
             </div>
           )}
         </div>
       </div>
 
-      {/* Desktop Layout - Original */}
-      <div className="hidden sm:flex items-center justify-center relative">
+      {/* Desktop Layout - Original (>= 1024px) */}
+      <div className="hidden lg:flex items-center justify-center relative">
         {/* Left side - File Operations */}
         <div className="absolute left-0 flex items-center space-x-2">
           <button 
