@@ -89,26 +89,26 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
   }
 
   return (
-    <div className="flex-1 flex flex-col border-r border-gray-300 min-h-0 max-h-full min-w-0 overflow-hidden bg-white dark:border-gray-700 dark:bg-gray-900">
-      <div className="panel-header flex items-center justify-between flex-shrink-0 bg-gray-50 border-b border-gray-200 px-4 py-3 dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex-1 flex flex-col min-h-0 max-h-full min-w-0 overflow-hidden bg-white dark:bg-gray-900 md:rounded-bl-lg">
+      <div className="panel-header flex items-center justify-between flex-shrink-0 bg-gray-50 border-b border-gray-200 px-4 py-3 dark:bg-gray-800 dark:border-gray-700 rounded-tl-lg md:rounded-tl-lg">
         <div className="flex items-center space-x-2">
            <Code className="w-4 h-4 text-blue-500 dark:text-blue-400" />
            <h3 className="font-semibold text-gray-900 dark:text-white">Source Code</h3>
         </div>
-        <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+        <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 hidden sm:flex">
           <FileText className="w-3 h-3" />
           <span>Drag & drop files here</span>
         </div>
       </div>
       
       <div 
-        className="flex-1 relative min-h-0"
+        className="flex-1 relative min-h-0 md:rounded-bl-lg"
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
         {isDragOver && (
-          <div className="absolute inset-0 bg-blue-600 bg-opacity-20 border-2 border-dashed border-blue-400 rounded-lg flex items-center justify-center z-10">
+          <div className="absolute inset-0 bg-blue-600 bg-opacity-20 border-2 border-dashed border-blue-400 rounded-lg flex items-center justify-center z-50">
             <div className="text-center">
               <FileText className="w-12 h-12 text-blue-400 mx-auto mb-2" />
               <p className="text-blue-400 font-medium">Drop your file here</p>
@@ -116,6 +116,7 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
           </div>
         )}
         
+        <div className="h-full w-full relative z-0">
         <MonacoEditor
           height="100%"
           defaultLanguage="typescript"
@@ -137,13 +138,16 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
             wordWrap: 'on',
             bracketPairColorization: { enabled: true },
             cursorBlinking: 'smooth',
-            cursorSmoothCaretAnimation: 'on'
+            cursorSmoothCaretAnimation: 'on',
+            readOnly: false,
+            domReadOnly: false
           }}
         />
+        </div>
         
         {!value && (
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-white dark:bg-gray-900">
-            <div className="text-center text-gray-500 dark:text-gray-400">
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-10">
+            <div className="text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 p-4 rounded-lg">
               <Code className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p className="text-lg font-medium mb-2">Ready to analyze your code</p>
               <p className="text-sm">{placeholder}</p>

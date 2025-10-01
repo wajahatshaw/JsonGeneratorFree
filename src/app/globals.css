@@ -305,3 +305,45 @@ a {
 .monaco-editor .monaco-scrollable-element {
   overflow: auto !important;
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Reduce ad space on mobile */
+  .ad-space {
+    min-height: 50px !important;
+  }
+  
+  /* Make sure content doesn't overflow */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Adjust main layout for mobile */
+  .main-layout {
+    max-width: 100vw;
+  }
+  
+  /* Mobile editor adjustments */
+  .monaco-editor {
+    font-size: 12px !important;
+  }
+  
+  /* Touch-friendly buttons */
+  button {
+    min-height: 36px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .monaco-editor {
+    font-size: 11px !important;
+  }
+}
+
+/* Extra small breakpoint for hiding text on very small screens */
+@media (min-width: 360px) {
+  .xs\:inline {
+    display: inline;
+  }
+}

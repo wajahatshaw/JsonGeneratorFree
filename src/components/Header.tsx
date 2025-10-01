@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { Menu } from 'lucide-react'
 import ToolbarGradientMenu from '@/components/ui/toolbar-gradient-menu'
 
 interface HeaderProps {
@@ -26,13 +27,22 @@ export function Header({ onMenuClick, onExport, onCopy, onSignIn, hasData = fals
   }
 
   return (
-    <header className="bg-gray-100 border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700 px-4 py-3">
+    <header className="bg-gray-100 border-b border-gray-300 dark:bg-gray-800 dark:border-gray-700 px-2 sm:px-4 py-2 sm:py-3">
       <div className="flex items-center justify-between">
-        {/* Left side - Branding */}
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-2">
-              <div className="w-16 h-16 relative">
+        {/* Left side - Menu Button (Mobile) + Branding */}
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={onMenuClick}
+            className="md:hidden p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            aria-label="Toggle menu"
+          >
+            <Menu className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+          </button>
+          
+          <div className="flex items-center space-x-1 sm:space-x-3">
+            <div className="flex items-center space-x-1 sm:space-x-2">
+              <div className="w-10 h-10 sm:w-16 sm:h-16 relative flex-shrink-0">
                 <Image
                   src="/assets/jsongeneratorlogo.png"
                   alt="Json Generator Free Logo"
@@ -41,16 +51,16 @@ export function Header({ onMenuClick, onExport, onCopy, onSignIn, hasData = fals
                   className="object-contain"
                 />
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">JsonGeneratorFree</h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400">AI-Powered Mock Data Generator</p>
+              <div className="min-w-0">
+                <h1 className="text-sm sm:text-xl font-bold text-gray-900 dark:text-white truncate">JsonGeneratorFree</h1>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 hidden sm:block">AI-Powered Mock Data Generator</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Right side - Animated Actions */}
-        <div className="flex items-center">
+        <div className="flex items-center flex-shrink-0">
           <ToolbarGradientMenu
             isDarkMode={isDarkMode}
             onToggleDarkMode={toggleDarkMode}

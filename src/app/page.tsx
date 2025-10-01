@@ -23,6 +23,22 @@ export default function Home() {
   const [convertedData, setConvertedData] = useState('')
   const [showFormatDropdown, setShowFormatDropdown] = useState(false)
   const { addToast, ToastContainer } = useToast()
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detect mobile on mount and window resize
+  React.useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768
+      setIsMobile(mobile)
+      if (mobile) {
+        setSidebarOpen(false) // Close sidebar on mobile by default
+      }
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const handleGenerate = async () => {
     if (!sourceCode.trim()) {
@@ -342,7 +358,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white flex flex-col">
       <div className="main-layout flex flex-col overflow-hidden flex-1">
         <Header 
-          onMenuClick={() => {}}
+          onMenuClick={() => setSidebarOpen(!sidebarOpen)}
           onExport={handleExport}
           onCopy={handleCopy}
           onSignIn={() => addToast('Sign In functionality coming soon', 'info')}
@@ -351,27 +367,42 @@ export default function Home() {
 
         {/* Top Ad Space - Below Header */}
         <div className="w-full bg-gray-200 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600">
-          <div className="h-20 flex items-center justify-center">
-            <div className="text-gray-500 dark:text-gray-400 text-sm">
-              Advertisement Space - 728x90
+          <div className="h-12 sm:h-20 flex items-center justify-center px-2">
+            <div className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
+              Advertisement Space
             </div>
           </div>
         </div>
       
-      <div className="flex flex-1 min-h-0">
+      <div className="flex flex-1 min-h-0 relative">
+        {/* Sidebar - Desktop: always visible, Mobile: overlay drawer */}
         {sidebarOpen && (
-          <div className="flex-shrink-0 h-full">
-            <JsonGeneratorSidebar 
-              onTemplateSelect={handleTemplateSelect}
-              onCreateNew={handleCreateNewTemplate}
-              onSearch={(query) => {
-                console.log('Search query:', query)
-              }}
-              currentContent={sourceCode}
-              onContentChange={handleContentChange}
-              onClearGeneratedData={handleClearGeneratedData}
-            />
-          </div>
+          <>
+            {/* Mobile Overlay */}
+            {isMobile && (
+              <div 
+                className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                onClick={() => setSidebarOpen(false)}
+              />
+            )}
+            
+            {/* Sidebar Container */}
+            <div className={`
+              ${isMobile ? 'fixed left-0 top-0 bottom-0 z-50' : 'flex-shrink-0 h-full'}
+              md:relative md:z-auto
+            `}>
+              <JsonGeneratorSidebar 
+                onTemplateSelect={handleTemplateSelect}
+                onCreateNew={handleCreateNewTemplate}
+                onSearch={(query) => {
+                  console.log('Search query:', query)
+                }}
+                currentContent={sourceCode}
+                onContentChange={handleContentChange}
+                onClearGeneratedData={handleClearGeneratedData}
+              />
+            </div>
+          </>
         )}
         
         <div className="main-content flex flex-col min-w-0 overflow-hidden">
@@ -389,20 +420,24 @@ export default function Home() {
           onExportConverted={handleExportConverted}
         />
         
-        <div className="flex-1 flex min-h-0 overflow-hidden">
-          <div className="flex-1 flex min-h-0 max-h-full overflow-hidden">
-            <CodeEditor
-              value={sourceCode}
-              onChange={setSourceCode}
-              placeholder="Paste your source code here or drag & drop a file..."
-            />
+        <div className="flex-1 flex flex-col md:flex-row min-h-0 p-4">
+          <div className="flex-1 flex flex-col md:flex-row min-h-0 max-h-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
+            <div className="flex-1 min-h-[300px] md:min-h-0 md:border-r border-gray-300 dark:border-gray-700 flex flex-col">
+              <CodeEditor
+                value={sourceCode}
+                onChange={setSourceCode}
+                placeholder="Paste your source code here or drag & drop a file..."
+              />
+            </div>
             
-            <PreviewPanel
-              data={convertedData || generatedData}
-              isLoading={isGenerating}
-              onCopy={handleCopy}
-              onDownload={handleExportConverted}
-            />
+            <div className="flex-1 min-h-[300px] md:min-h-0 border-t md:border-t-0 flex flex-col">
+              <PreviewPanel
+                data={convertedData || generatedData}
+                isLoading={isGenerating}
+                onCopy={handleCopy}
+                onDownload={handleExportConverted}
+              />
+            </div>
           </div>
         </div>
         </div>
@@ -411,9 +446,9 @@ export default function Home() {
 
       {/* Bottom Ad Space */}
       <div className="w-full bg-gray-200 dark:bg-gray-700 border-t border-gray-300 dark:border-gray-600">
-        <div className="h-20 flex items-center justify-center">
-          <div className="text-gray-500 dark:text-gray-400 text-sm">
-            Advertisement Space - 728x90
+        <div className="h-12 sm:h-20 flex items-center justify-center px-2">
+          <div className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
+            Advertisement Space
           </div>
         </div>
       </div>

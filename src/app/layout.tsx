@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: 'JsonGeneratorFree - AI-Powered Mock Data Generator',
   description: 'Generate realistic mock data from your source code. Modern JSON Generator & Mock Data Creator.',
   keywords: 'json generator, mock data, api testing, fake data, json schema',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 }
 
 export default function RootLayout({
