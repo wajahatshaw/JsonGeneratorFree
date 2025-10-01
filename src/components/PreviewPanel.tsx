@@ -70,7 +70,7 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
 
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 max-h-full min-w-0 bg-white dark:bg-gray-900 rounded-br-lg">
+    <div className="flex-1 flex flex-col min-h-0 max-h-full min-w-0 bg-white dark:bg-[#0f172a] rounded-br-lg">
       <div className="panel-header flex items-center justify-between flex-shrink-0 bg-gray-50 border-b border-gray-200 px-4 py-3 dark:bg-gray-800 dark:border-gray-700 md:rounded-tr-lg">
         <div className="flex items-center space-x-2">
           <FileText className="w-4 h-4 text-green-500 dark:text-green-400" />
@@ -83,7 +83,7 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
               onClick={() => setViewMode('formatted')}
               className={`px-2 py-1 text-xs rounded ${
                 viewMode === 'formatted' 
-                  ? 'bg-blue-600 text-white dark:bg-blue-600 dark:text-white' 
+                  ? 'bg-blue-600 text-white' 
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
               }`}
             >
@@ -93,7 +93,7 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
               onClick={() => setViewMode('raw')}
               className={`px-2 py-1 text-xs rounded ${
                 viewMode === 'raw' 
-                  ? 'bg-blue-600 text-white dark:bg-blue-600 dark:text-white' 
+                  ? 'bg-blue-600 text-white' 
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
               }`}
             >
@@ -103,9 +103,9 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
         </div>
       </div>
       
-      <div className="flex-1 relative min-h-0 overflow-hidden rounded-br-lg">
+      <div className="flex-1 relative min-h-0 overflow-hidden rounded-br-lg bg-white dark:bg-[#0f172a]">
         {isLoading ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-gray-900">
+          <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-[#0f172a]">
             <QuantumPulseLoader />
           </div>
         ) : data ? (
@@ -155,7 +155,7 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
             </div>
           </>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-gray-900">
+          <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-[#0f172a]">
             <div className="text-center text-gray-500 dark:text-gray-400">
               <Eye className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p className="text-lg font-medium mb-2">No data generated yet</p>

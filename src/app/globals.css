@@ -85,6 +85,11 @@ a {
 /* Monaco Editor customization */
 .monaco-editor {
   border-radius: 8px;
+  background-color: #ffffff !important;
+}
+
+.dark .monaco-editor {
+  background-color: #0f172a !important;
 }
 
 .monaco-editor .margin {
@@ -117,6 +122,12 @@ a {
 }
 
 .dark .monaco-editor .view-lines {
+  background-color: #0f172a !important;
+}
+
+/* Additional Monaco elements that need background override */
+.dark .monaco-editor .overflow-guard,
+.dark .monaco-editor .monaco-scrollable-element {
   background-color: #0f172a !important;
 }
 

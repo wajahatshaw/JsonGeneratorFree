@@ -89,7 +89,7 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
   }
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 max-h-full min-w-0 overflow-hidden bg-white dark:bg-gray-900 md:rounded-bl-lg">
+    <div className="flex-1 flex flex-col min-h-0 max-h-full min-w-0 overflow-hidden bg-white dark:bg-[#0f172a] md:rounded-bl-lg">
       <div className="panel-header flex items-center justify-between flex-shrink-0 bg-gray-50 border-b border-gray-200 px-4 py-3 dark:bg-gray-800 dark:border-gray-700 rounded-tl-lg md:rounded-tl-lg">
         <div className="flex items-center space-x-2">
            <Code className="w-4 h-4 text-blue-500 dark:text-blue-400" />
@@ -102,7 +102,7 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
       </div>
       
       <div 
-        className="flex-1 relative min-h-0 md:rounded-bl-lg"
+        className="flex-1 relative min-h-0 md:rounded-bl-lg bg-white dark:bg-[#0f172a]"
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -147,7 +147,7 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
         
         {!value && (
           <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-10">
-            <div className="text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 p-4 rounded-lg">
+            <div className="text-center text-gray-500 dark:text-gray-400 p-4 rounded-lg">
               <Code className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p className="text-lg font-medium mb-2">Ready to analyze your code</p>
               <p className="text-sm">{placeholder}</p>
