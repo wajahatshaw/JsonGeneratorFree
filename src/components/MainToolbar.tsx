@@ -9,7 +9,7 @@ import {
   ChevronDown,
   Download
 } from 'lucide-react'
-import { TextShimmer } from '@/components/ui/text-shimmer'
+import { GlowCard } from '@/components/ui/spotlight-card'
 
 interface MainToolbarProps {
   onClear: () => void
@@ -44,67 +44,92 @@ export function MainToolbar({
       <div className="flex flex-col lg:hidden space-y-2">
         {/* Generate Button - Full width on mobile/tablet */}
         {onGenerate && (
-          <button 
-            onClick={onGenerate}
-            disabled={isGenerating}
-            className="btn-primary flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed bg-black hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium w-full"
+          <GlowCard 
+            customSize={true}
+            glowColor="blue"
+            className="w-full h-auto aspect-auto p-0 shadow-none bg-transparent"
           >
-            <Sparkles className="w-4 h-4" />
-            <TextShimmer 
-              duration={1.5}
-              className="text-sm font-medium generate-button-shimmer"
+            <button 
+              onClick={onGenerate}
+              disabled={isGenerating}
+              className="flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl font-medium text-sm w-full relative z-10 transition-all"
             >
-              {isGenerating ? 'Generating...' : 'Generate'}
-            </TextShimmer>
-          </button>
+              <Sparkles className="w-4 h-4" />
+              <span>{isGenerating ? 'Generating...' : 'Generate'}</span>
+            </button>
+          </GlowCard>
         )}
         
         {/* Action Buttons Row */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 flex-1">
-            <button 
-              onClick={onUpload}
-              className="btn-secondary flex items-center justify-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs flex-1 min-w-0"
+            <GlowCard 
+              customSize={true}
+              glowColor="purple"
+              className="flex-1 min-w-0 h-auto aspect-auto p-0 shadow-none bg-transparent"
             >
-              <Upload className="w-3.5 h-3.5 flex-shrink-0" />
-              <span className="hidden sm:inline truncate">Upload</span>
-            </button>
+              <button 
+                onClick={onUpload}
+                className="flex items-center justify-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm w-full relative z-10 transition-all"
+              >
+                <Upload className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden sm:inline truncate">Upload</span>
+              </button>
+            </GlowCard>
             
-            <button 
-              onClick={onSave}
-              className="btn-secondary flex items-center justify-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs flex-1 min-w-0"
+            <GlowCard 
+              customSize={true}
+              glowColor="green"
+              className="flex-1 min-w-0 h-auto aspect-auto p-0 shadow-none bg-transparent"
             >
-              <Save className="w-3.5 h-3.5 flex-shrink-0" />
-              <span className="hidden sm:inline truncate">Save</span>
-            </button>
+              <button 
+                onClick={onSave}
+                className="flex items-center justify-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm w-full relative z-10 transition-all"
+              >
+                <Save className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden sm:inline truncate">Save</span>
+              </button>
+            </GlowCard>
             
-            <button 
-              onClick={onClear}
-              className="btn-secondary flex items-center justify-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs flex-1 min-w-0"
+            <GlowCard 
+              customSize={true}
+              glowColor="red"
+              className="flex-1 min-w-0 h-auto aspect-auto p-0 shadow-none bg-transparent"
             >
-              <Trash2 className="w-3.5 h-3.5 flex-shrink-0" />
-              <span className="hidden sm:inline truncate">Clear</span>
-            </button>
+              <button 
+                onClick={onClear}
+                className="flex items-center justify-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm w-full relative z-10 transition-all"
+              >
+                <Trash2 className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden sm:inline truncate">Clear</span>
+              </button>
+            </GlowCard>
           </div>
           
           {/* Converter Buttons */}
           {showConverter && (
             <div className="flex items-center gap-2">
-              <button 
-                onClick={onConverterClick}
-                className="btn-secondary flex items-center justify-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs whitespace-nowrap"
+              <GlowCard 
+                customSize={true}
+                glowColor="orange"
+                className="h-auto aspect-auto p-0 shadow-none bg-transparent"
               >
-                <ArrowRightLeft className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Convert</span>
-              </button>
+                <button 
+                  onClick={onConverterClick}
+                  className="flex items-center justify-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm whitespace-nowrap relative z-10 transition-all"
+                >
+                  <ArrowRightLeft className="w-4 h-4" />
+                  <span className="hidden sm:inline">Convert</span>
+                </button>
+              </GlowCard>
               
               {showFormatDropdown && (
                 <div className="relative">
                   <button 
-                    className="btn-secondary flex items-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs whitespace-nowrap"
+                    className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all"
                   >
                     <span>{selectedFormat}</span>
-                    <ChevronDown className="w-3 h-3" />
+                    <ChevronDown className="w-4 h-4" />
                   </button>
                   
                   <div className="absolute top-full right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg z-50 min-w-[100px]">
@@ -123,13 +148,19 @@ export function MainToolbar({
                 </div>
               )}
               
-              <button 
-                onClick={onExportConverted}
-                className="btn-secondary flex items-center justify-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg text-xs whitespace-nowrap"
+              <GlowCard 
+                customSize={true}
+                glowColor="green"
+                className="h-auto aspect-auto p-0 shadow-none bg-transparent"
               >
-                <Download className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Export</span>
-              </button>
+                <button 
+                  onClick={onExportConverted}
+                  className="flex items-center justify-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm whitespace-nowrap relative z-10 transition-all"
+                >
+                  <Download className="w-4 h-4" />
+                  <span className="hidden sm:inline">Export</span>
+                </button>
+              </GlowCard>
             </div>
           )}
         </div>
@@ -139,47 +170,66 @@ export function MainToolbar({
       <div className="hidden lg:flex items-center justify-center relative">
         {/* Left side - File Operations */}
         <div className="absolute left-0 flex items-center space-x-2">
+          <GlowCard 
+            customSize={true}
+            glowColor="purple"
+            className="h-auto aspect-auto p-0 shadow-none bg-transparent"
+          >
           <button 
             onClick={onUpload}
-            className="btn-secondary flex items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200"
+              className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm relative z-10 transition-all"
           >
             <Upload className="w-4 h-4" />
             <span>Upload</span>
           </button>
+          </GlowCard>
           
+          <GlowCard 
+            customSize={true}
+            glowColor="green"
+            className="h-auto aspect-auto p-0 shadow-none bg-transparent"
+          >
           <button 
             onClick={onSave}
-            className="btn-secondary flex items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200"
+              className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm relative z-10 transition-all"
           >
             <Save className="w-4 h-4" />
             <span>Save</span>
           </button>
+          </GlowCard>
           
+          <GlowCard 
+            customSize={true}
+            glowColor="red"
+            className="h-auto aspect-auto p-0 shadow-none bg-transparent"
+          >
           <button 
             onClick={onClear}
-            className="btn-secondary flex items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200"
+              className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm relative z-10 transition-all"
           >
             <Trash2 className="w-4 h-4" />
             <span>Clear</span>
           </button>
+          </GlowCard>
         </div>
 
         {/* Center - Generate Button */}
         <div className="flex items-center justify-center">
           {onGenerate && (
+            <GlowCard 
+              customSize={true}
+              glowColor="blue"
+              className="w-auto h-auto aspect-auto p-0 shadow-none bg-transparent"
+            >
             <button 
               onClick={onGenerate}
               disabled={isGenerating}
-              className="btn-primary flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed bg-black hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium"
-            >
-              <Sparkles className="w-4 h-4" />
-              <TextShimmer 
-                duration={1.5}
-                className="text-sm font-medium generate-button-shimmer"
+                className="flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-6 py-2 rounded-xl font-medium text-sm relative z-10 transition-all"
               >
-                {isGenerating ? 'Generating...' : 'Generate'}
-              </TextShimmer>
+                <Sparkles className="w-4 h-4" />
+                <span>{isGenerating ? 'Generating...' : 'Generate'}</span>
             </button>
+            </GlowCard>
           )}
         </div>
 
@@ -187,20 +237,26 @@ export function MainToolbar({
         <div className="absolute right-0 flex items-center space-x-2">
           {/* Convert Button - Always visible when converter is enabled */}
           {showConverter && (
+            <GlowCard 
+              customSize={true}
+              glowColor="orange"
+              className="h-auto aspect-auto p-0 shadow-none bg-transparent"
+            >
             <button 
               onClick={onConverterClick}
-              className="btn-secondary flex items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg"
+                className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm relative z-10 transition-all"
             >
               <ArrowRightLeft className="w-4 h-4" />
               <span>Convert</span>
             </button>
+            </GlowCard>
           )}
 
           {/* Format Dropdown - Separate button that appears when Convert is clicked */}
           {showConverter && showFormatDropdown && (
             <div className="relative">
               <button 
-                className="btn-secondary flex items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg"
+                className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm transition-all"
               >
                 <span>{selectedFormat}</span>
                 <ChevronDown className="w-4 h-4" />
@@ -224,13 +280,19 @@ export function MainToolbar({
 
           {/* Export Button */}
           {showConverter && (
+            <GlowCard 
+              customSize={true}
+              glowColor="green"
+              className="h-auto aspect-auto p-0 shadow-none bg-transparent"
+            >
             <button 
               onClick={onExportConverted}
-              className="btn-secondary flex items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 px-3 py-2 rounded-lg"
+                className="flex items-center gap-1.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700/60 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-xl text-sm relative z-10 transition-all"
             >
               <Download className="w-4 h-4" />
               <span>Export</span>
             </button>
+            </GlowCard>
           )}
         </div>
       </div>
