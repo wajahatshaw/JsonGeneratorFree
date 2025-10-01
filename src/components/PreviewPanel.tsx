@@ -81,9 +81,9 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
           <div className="flex items-center space-x-1">
             <button
               onClick={() => setViewMode('formatted')}
-              className={`px-2 py-1 text-xs rounded ${
+              className={`px-3 py-1.5 text-sm rounded-lg transition-all ${
                 viewMode === 'formatted' 
-                  ? 'bg-blue-600 text-white' 
+                  ? 'bg-gray-300 text-gray-800 dark:bg-gray-600 dark:text-gray-100 font-medium' 
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
               }`}
             >
@@ -91,9 +91,9 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
             </button>
             <button
               onClick={() => setViewMode('raw')}
-              className={`px-2 py-1 text-xs rounded ${
+              className={`px-3 py-1.5 text-sm rounded-lg transition-all ${
                 viewMode === 'raw' 
-                  ? 'bg-blue-600 text-white' 
+                  ? 'bg-gray-300 text-gray-800 dark:bg-gray-600 dark:text-gray-100 font-medium' 
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
               }`}
             >
