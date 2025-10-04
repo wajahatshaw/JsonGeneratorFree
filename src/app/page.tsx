@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 import { MainToolbar } from '@/components/MainToolbar'
 import { CodeEditor } from '@/components/CodeEditor'
 import { PreviewPanel } from '@/components/PreviewPanel'
@@ -459,6 +460,9 @@ export default function Home() {
           />
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
 
       <ToastContainer />
     </div>
