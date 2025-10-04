@@ -3852,21 +3852,464 @@ const blogPosts = [
     readTime: "22 min read",
     tags: ["JSON", "Debugging", "Troubleshooting"],
     featured: false
+  },
+  {
+    id: 16,
+    title: "JavaScript ES2024: New Features and Modern Development",
+    excerpt: "Explore the latest JavaScript features in ES2024, including new syntax, performance improvements, and modern development patterns.",
+    content: `
+      <div class="js-showcase">
+        <div class="showcase-header">
+          <h2>🚀 JavaScript ES2024: The Future is Here</h2>
+          <p>JavaScript continues to evolve rapidly, with ES2024 introducing exciting new features that enhance developer productivity and application performance. This comprehensive guide explores the most significant additions to the JavaScript language.</p>
+        </div>
+        
+        <div class="feature-highlights">
+          <div class="highlight-card">
+            <div class="highlight-icon">⚡</div>
+            <h3>Performance Boost</h3>
+            <p>Enhanced execution speed and memory efficiency</p>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon">🎯</div>
+            <h3>New Syntax</h3>
+            <p>More expressive and concise code patterns</p>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon">🔧</div>
+            <h3>Better Tools</h3>
+            <p>Improved debugging and development experience</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="new-features">
+        <h2>🆕 Latest JavaScript Features</h2>
+        
+        <div class="features-grid">
+          <div class="feature-item">
+            <h3>📊 Enhanced Array Methods</h3>
+            <div class="feature-demo">
+              <div class="code-example">
+                <div class="code-header">New Array Methods</div>
+                <div class="code-content">
+                  <span class="comment">// Array.prototype.findLast()</span><br>
+                  <span class="keyword">const</span> <span class="variable">numbers</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];<br>
+                  <span class="keyword">const</span> <span class="variable">lastEven</span> = <span class="variable">numbers</span>.<span class="function">findLast</span>(<span class="variable">n</span> => <span class="variable">n</span> % <span class="number">2</span> === <span class="number">0</span>);<br>
+                  <span class="comment">// Returns: 4</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <h3>🔄 Improved Async/Await</h3>
+            <div class="feature-demo">
+              <div class="code-example">
+                <div class="code-header">Enhanced Promise Handling</div>
+                <div class="code-content">
+                  <span class="keyword">async function</span> <span class="function">fetchData</span>() {<br>
+                  &nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/data'</span>);<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">await</span> <span class="variable">response</span>.<span class="function">json</span>();<br>
+                  &nbsp;&nbsp;} <span class="keyword">catch</span> (<span class="variable">error</span>) {<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">console</span>.<span class="function">error</span>(<span class="string">'Error:'</span>, <span class="variable">error</span>);<br>
+                  &nbsp;&nbsp;}<br>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="performance-improvements">
+        <h2>⚡ Performance Enhancements</h2>
+        
+        <div class="performance-metrics">
+          <div class="metric-item">
+            <div class="metric-value">25%</div>
+            <div class="metric-label">Faster Execution</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">30%</div>
+            <div class="metric-label">Memory Reduction</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">40%</div>
+            <div class="metric-label">Startup Time</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modern-patterns">
+        <h2>🎯 Modern Development Patterns</h2>
+        
+        <div class="patterns-showcase">
+          <div class="pattern-card">
+            <h3>🏗️ Module Federation</h3>
+            <p>Share code between applications at runtime</p>
+            <div class="pattern-example">
+              <div class="example-code">
+                <span class="comment">// Dynamic imports with better error handling</span><br>
+                <span class="keyword">const</span> <span class="variable">module</span> = <span class="keyword">await</span> <span class="function">import</span>(<span class="string">'./dynamic-module.js'</span>);
+              </div>
+            </div>
+          </div>
+          
+          <div class="pattern-card">
+            <h3>🔒 Private Fields</h3>
+            <p>True encapsulation in JavaScript classes</p>
+            <div class="pattern-example">
+              <div class="example-code">
+                <span class="keyword">class</span> <span class="class">User</span> {<br>
+                &nbsp;&nbsp;<span class="keyword">#</span><span class="variable">privateData</span> = <span class="string">'secret'</span>;<br>
+                &nbsp;&nbsp;<span class="function">getPrivateData</span>() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">this</span>.<span class="keyword">#</span><span class="variable">privateData</span>;<br>
+                &nbsp;&nbsp;}<br>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="js-conclusion">
+        <h2>🎉 Embracing Modern JavaScript</h2>
+        <p>JavaScript ES2024 represents a significant step forward in the evolution of the language, providing developers with powerful new tools and improved performance. By understanding and adopting these new features, developers can write more efficient, maintainable, and expressive code that takes advantage of the latest language improvements.</p>
+        
+        <p>The key to success with modern JavaScript lies in continuous learning and experimentation. As the language continues to evolve, staying current with new features and best practices ensures that your code remains efficient, readable, and aligned with industry standards.</p>
+      </div>
+    `,
+    author: "Michael Rodriguez",
+    date: "2024-12-16",
+    readTime: "20 min read",
+    tags: ["JavaScript", "ES2024", "Frontend"],
+    featured: false
+  },
+  {
+    id: 17,
+    title: "API Testing Strategies: Comprehensive Guide for Developers",
+    excerpt: "Master API testing with comprehensive strategies, tools, and best practices for ensuring robust and reliable API endpoints.",
+    content: `
+      <div class="api-testing-intro">
+        <div class="intro-header">
+          <h2>🧪 API Testing Mastery: Your Complete Guide</h2>
+          <p>API testing is a critical component of modern software development, ensuring that application programming interfaces function correctly, perform well, and maintain reliability under various conditions.</p>
+        </div>
+        
+        <div class="testing-pillars">
+          <div class="pillar-item">
+            <div class="pillar-icon">🔍</div>
+            <h3>Functional Testing</h3>
+            <p>Validate API behavior and responses</p>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-icon">⚡</div>
+            <h3>Performance Testing</h3>
+            <p>Ensure optimal speed and scalability</p>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-icon">🔒</div>
+            <h3>Security Testing</h3>
+            <p>Protect against vulnerabilities</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testing-strategies">
+        <h2>📋 Comprehensive Testing Strategies</h2>
+        
+        <div class="strategy-grid">
+          <div class="strategy-card">
+            <h3>🔧 Unit Testing</h3>
+            <div class="strategy-content">
+              <p>Test individual API endpoints in isolation</p>
+              <div class="strategy-example">
+                <div class="example-header">Jest + Supertest Example</div>
+                <div class="example-code">
+                  <span class="keyword">describe</span>(<span class="string">'GET /api/users'</span>, () => {<br>
+                  &nbsp;&nbsp;<span class="function">it</span>(<span class="string">'should return user list'</span>, <span class="keyword">async</span> () => {<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">request</span>(<span class="variable">app</span>)<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span class="function">get</span>(<span class="string">'/api/users'</span>)<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span class="function">expect</span>(<span class="number">200</span>);<br>
+                  &nbsp;&nbsp;});<br>
+                  });
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="strategy-card">
+            <h3>🔗 Integration Testing</h3>
+            <div class="strategy-content">
+              <p>Test API interactions with external systems</p>
+              <div class="strategy-example">
+                <div class="example-header">API Integration Test</div>
+                <div class="example-code">
+                  <span class="keyword">test</span>(<span class="string">'API integrates with database'</span>, <span class="keyword">async</span> () => {<br>
+                  &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">userData</span> = { <span class="property">name</span>: <span class="string">'John'</span>, <span class="property">email</span>: <span class="string">'john@test.com'</span> };<br>
+                  &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">createUser</span>(<span class="variable">userData</span>);<br>
+                  &nbsp;&nbsp;<span class="function">expect</span>(<span class="variable">response</span>.<span class="property">status</span>).<span class="function">toBe</span>(<span class="number">201</span>);<br>
+                  });
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testing-tools">
+        <h2>🛠️ Essential Testing Tools</h2>
+        
+        <div class="tools-categories">
+          <div class="tool-category">
+            <h3>🌐 API Testing Tools</h3>
+            <div class="tool-list">
+              <div class="tool-item">
+                <h4>Postman</h4>
+                <p>Comprehensive API development and testing platform</p>
+                <div class="tool-features">
+                  <span class="feature">Collection Management</span>
+                  <span class="feature">Automated Testing</span>
+                  <span class="feature">Mock Servers</span>
+                </div>
+              </div>
+              <div class="tool-item">
+                <h4>Insomnia</h4>
+                <p>Lightweight API testing and debugging tool</p>
+                <div class="tool-features">
+                  <span class="feature">GraphQL Support</span>
+                  <span class="feature">Environment Variables</span>
+                  <span class="feature">Plugin System</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tool-category">
+            <h3>⚡ Performance Testing</h3>
+            <div class="tool-list">
+              <div class="tool-item">
+                <h4>Artillery</h4>
+                <p>Load testing and performance monitoring</p>
+                <div class="tool-features">
+                  <span class="feature">Load Testing</span>
+                  <span class="feature">Real-time Metrics</span>
+                  <span class="feature">CI/CD Integration</span>
+                </div>
+              </div>
+              <div class="tool-item">
+                <h4>K6</h4>
+                <p>Developer-centric load testing tool</p>
+                <div class="tool-features">
+                  <span class="feature">JavaScript Scripts</span>
+                  <span class="feature">Cloud Testing</span>
+                  <span class="feature">Detailed Reports</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="api-conclusion">
+        <h2>🎯 Mastering API Testing Excellence</h2>
+        <p>Effective API testing is essential for building reliable, secure, and performant applications. By implementing comprehensive testing strategies, using the right tools, and following best practices, developers can ensure their APIs meet the highest quality standards.</p>
+        
+        <p>The key to successful API testing lies in understanding the different types of tests and when to apply them. By combining functional, performance, and security testing with proper automation and monitoring, you can build APIs that are robust, scalable, and ready for production use.</p>
+      </div>
+    `,
+    author: "Jennifer Lee",
+    date: "2024-12-16",
+    readTime: "23 min read",
+    tags: ["API Testing", "Backend", "Quality Assurance"],
+    featured: false
+  },
+  {
+    id: 18,
+    title: "Mobile-First Web Design: Responsive Development Best Practices",
+    excerpt: "Learn mobile-first design principles and responsive development techniques for creating exceptional mobile web experiences.",
+    content: `
+      <div class="mobile-first-intro">
+        <div class="intro-header">
+          <h2>📱 Mobile-First Design: The Modern Approach</h2>
+          <p>Mobile-first web design has become the standard approach for modern web development, prioritizing mobile user experience while ensuring compatibility across all device types.</p>
+        </div>
+        
+        <div class="mobile-stats">
+          <div class="stat-item">
+            <div class="stat-number">60%</div>
+            <div class="stat-label">Mobile Traffic</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">85%</div>
+            <div class="stat-label">Mobile Users</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">3x</div>
+            <div class="stat-label">Faster Loading</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="design-principles">
+        <h2>🎨 Mobile-First Design Principles</h2>
+        
+        <div class="principles-grid">
+          <div class="principle-card">
+            <h3>📐 Progressive Enhancement</h3>
+            <div class="principle-content">
+              <p>Start with core functionality and enhance for larger screens</p>
+              <div class="principle-example">
+                <div class="example-header">CSS Mobile-First Approach</div>
+                <div class="example-code">
+                  <span class="comment">/* Mobile styles (default) */</span><br>
+                  <span class="selector">.container</span> {<br>
+                  &nbsp;&nbsp;<span class="property">padding</span>: <span class="value">1rem</span>;<br>
+                  &nbsp;&nbsp;<span class="property">font-size</span>: <span class="value">14px</span>;<br>
+                  }<br><br>
+                  <span class="comment">/* Tablet and up */</span><br>
+                  <span class="selector">@media</span> (<span class="property">min-width</span>: <span class="value">768px</span>) {<br>
+                  &nbsp;&nbsp;<span class="selector">.container</span> {<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">padding</span>: <span class="value">2rem</span>;<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">font-size</span>: <span class="value">16px</span>;<br>
+                  &nbsp;&nbsp;}<br>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="principle-card">
+            <h3>👆 Touch-Friendly Design</h3>
+            <div class="principle-content">
+              <p>Optimize for touch interactions and gestures</p>
+              <div class="principle-example">
+                <div class="example-header">Touch Target Guidelines</div>
+                <div class="example-code">
+                  <span class="comment">/* Minimum 44px touch targets */</span><br>
+                  <span class="selector">.button</span> {<br>
+                  &nbsp;&nbsp;<span class="property">min-height</span>: <span class="value">44px</span>;<br>
+                  &nbsp;&nbsp;<span class="property">min-width</span>: <span class="value">44px</span>;<br>
+                  &nbsp;&nbsp;<span class="property">padding</span>: <span class="value">12px 24px</span>;<br>
+                  }<br><br>
+                  <span class="comment">/* Adequate spacing between elements */</span><br>
+                  <span class="selector">.nav-item</span> {<br>
+                  &nbsp;&nbsp;<span class="property">margin</span>: <span class="value">8px 0</span>;<br>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="responsive-techniques">
+        <h2>📱 Responsive Development Techniques</h2>
+        
+        <div class="techniques-showcase">
+          <div class="technique-item">
+            <h3>🖼️ Responsive Images</h3>
+            <div class="technique-demo">
+              <div class="demo-header">Optimized Image Loading</div>
+              <div class="demo-code">
+                <span class="tag">&lt;picture&gt;</span><br>
+                &nbsp;&nbsp;<span class="tag">&lt;source</span> <span class="attr">media</span>=<span class="string">"(min-width: 768px)"</span> <span class="attr">srcset</span>=<span class="string">"large.jpg"</span><span class="tag">&gt;</span><br>
+                &nbsp;&nbsp;<span class="tag">&lt;source</span> <span class="attr">media</span>=<span class="string">"(min-width: 480px)"</span> <span class="attr">srcset</span>=<span class="string">"medium.jpg"</span><span class="tag">&gt;</span><br>
+                &nbsp;&nbsp;<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"small.jpg"</span> <span class="attr">alt</span>=<span class="string">"Responsive image"</span><span class="tag">&gt;</span><br>
+                <span class="tag">&lt;/picture&gt;</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="technique-item">
+            <h3>📏 Flexible Grid Systems</h3>
+            <div class="technique-demo">
+              <div class="demo-header">CSS Grid for Responsive Layouts</div>
+              <div class="demo-code">
+                <span class="selector">.grid-container</span> {<br>
+                &nbsp;&nbsp;<span class="property">display</span>: <span class="value">grid</span>;<br>
+                &nbsp;&nbsp;<span class="property">grid-template-columns</span>: <span class="value">repeat(auto-fit, minmax(300px, 1fr))</span>;<br>
+                &nbsp;&nbsp;<span class="property">gap</span>: <span class="value">1rem</span>;<br>
+                &nbsp;&nbsp;<span class="property">padding</span>: <span class="value">1rem</span>;<br>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="performance-optimization">
+        <h2>⚡ Mobile Performance Optimization</h2>
+        
+        <div class="optimization-strategies">
+          <div class="strategy-item">
+            <h3>🚀 Critical Resource Loading</h3>
+            <div class="strategy-tips">
+              <div class="tip">
+                <h4>Lazy Loading</h4>
+                <p>Load images and content as needed</p>
+              </div>
+              <div class="tip">
+                <h4>Code Splitting</h4>
+                <p>Split JavaScript bundles for faster loading</p>
+              </div>
+              <div class="tip">
+                <h4>Critical CSS</h4>
+                <p>Inline critical styles for above-the-fold content</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="strategy-item">
+            <h3>📊 Performance Metrics</h3>
+            <div class="metrics-grid">
+              <div class="metric">
+                <div class="metric-value">&lt;3s</div>
+                <div class="metric-label">Load Time</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">&lt;100</div>
+                <div class="metric-label">Lighthouse Score</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">&lt;1MB</div>
+                <div class="metric-label">Bundle Size</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mobile-conclusion">
+        <h2>🎯 Mastering Mobile-First Excellence</h2>
+        <p>Mobile-first design is not just a trend but a fundamental shift in how we approach web development. By prioritizing mobile users and building up from there, we create experiences that work seamlessly across all devices while maintaining optimal performance and usability.</p>
+        
+        <p>The key to successful mobile-first development lies in understanding user behavior, implementing responsive techniques effectively, and continuously optimizing for performance. By following these principles and staying current with mobile development best practices, you can create web experiences that truly serve your users' needs.</p>
+      </div>
+    `,
+    author: "Alex Thompson",
+    date: "2024-12-16",
+    readTime: "21 min read",
+    tags: ["Mobile-First", "Responsive Design", "Frontend"],
+    featured: false
   }
   // Add more posts as needed
 ]
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 // Note: generateMetadata is not available in Client Components
 // Metadata will be handled at the layout level or through other means
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = blogPosts.find(p => p.id.toString() === params.id)
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { id } = await params
+  const post = blogPosts.find(p => p.id.toString() === id)
 
   if (!post) {
     notFound()
