@@ -88,13 +88,7 @@ export default function ToolbarGradientMenu({
         disabled={!hasData}
       />
       
-      <button
-        onClick={onSignIn}
-        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-medium text-sm transition-all"
-      >
-        <User className="w-4 h-4" />
-        <span>Sign In</span>
-      </button>
+    
     </ul>
   );
 }
