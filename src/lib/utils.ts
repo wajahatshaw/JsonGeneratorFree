@@ -53,6 +53,51 @@ export function isValidJson(str: string): boolean {
   }
 }
 
+export function isEmptyJson(str: string): boolean {
+  if (!str || str.trim() === '') {
+    return true
+  }
+  
+  try {
+    const parsed = JSON.parse(str)
+    // Check if it's an empty object or array
+    if (parsed === null || parsed === undefined) {
+      return true
+    }
+    if (typeof parsed === 'object') {
+      if (Array.isArray(parsed) && parsed.length === 0) {
+        return true
+      }
+      if (!Array.isArray(parsed) && Object.keys(parsed).length === 0) {
+        return true
+      }
+    }
+    return false
+  } catch {
+    // If it's not valid JSON, consider it empty for download purposes
+    return true
+  }
+}
+
+export function hasValidJsonContent(str: string): boolean {
+  return !isEmptyJson(str) && isValidJson(str)
+}
+
+export function hasValidContent(str: string): boolean {
+  if (!str || str.trim() === '') {
+    return false
+  }
+  
+  // For JSON, use the existing validation
+  if (isValidJson(str)) {
+    return !isEmptyJson(str)
+  }
+  
+  // For other formats (XML, YAML, CSV), just check if there's meaningful content
+  const trimmed = str.trim()
+  return trimmed.length > 0 && trimmed !== 'null' && trimmed !== 'undefined'
+}
+
 export function formatJson(jsonString: string): string {
   try {
     const parsed = JSON.parse(jsonString)

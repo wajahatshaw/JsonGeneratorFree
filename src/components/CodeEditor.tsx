@@ -48,12 +48,25 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
+    e.stopPropagation()
     setIsDragOver(true)
+    console.log('Drag over detected')
   }
 
   const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault()
-    setIsDragOver(false)
+    e.stopPropagation()
+    // Only set drag over to false if we're leaving the container entirely
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsDragOver(false)
+      console.log('Drag leave detected')
+    }
+  }
+
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    console.log('Drag enter detected')
   }
 
   const handleDrop = (e: React.DragEvent) => {
@@ -63,12 +76,25 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
     const files = e.dataTransfer.files
     if (files.length > 0) {
       const file = files[0]
-      if (file.type === 'text/plain' || file.name.endsWith('.js') || file.name.endsWith('.ts') || file.name.endsWith('.py') || file.name.endsWith('.java')) {
+      
+      // More comprehensive file type checking
+      const allowedExtensions = ['.js', '.ts', '.jsx', '.tsx', '.py', '.java', '.cs', '.php', '.rb', '.go', '.rs', '.cpp', '.c', '.h', '.json', '.xml', '.yaml', '.yml', '.csv']
+      const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'))
+      
+      if (file.type.startsWith('text/') || allowedExtensions.includes(fileExtension)) {
         const reader = new FileReader()
         reader.onload = (event) => {
-          onChange(event.target?.result as string || '')
+          const content = event.target?.result as string || ''
+          onChange(content)
+          console.log(`File "${file.name}" loaded successfully (${content.length} characters)`)
+        }
+        reader.onerror = () => {
+          console.error('Error reading file:', file.name)
         }
         reader.readAsText(file)
+      } else {
+        console.warn(`Unsupported file type: ${file.type} for file: ${file.name}`)
+        alert(`Unsupported file type. Please upload a text file or code file (${allowedExtensions.join(', ')})`)
       }
     }
   }
@@ -76,11 +102,25 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        onChange(event.target?.result as string || '')
+      // More comprehensive file type checking
+      const allowedExtensions = ['.js', '.ts', '.jsx', '.tsx', '.py', '.java', '.cs', '.php', '.rb', '.go', '.rs', '.cpp', '.c', '.h', '.json', '.xml', '.yaml', '.yml', '.csv']
+      const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'))
+      
+      if (file.type.startsWith('text/') || allowedExtensions.includes(fileExtension)) {
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          const content = event.target?.result as string || ''
+          onChange(content)
+          console.log(`File "${file.name}" loaded successfully (${content.length} characters)`)
+        }
+        reader.onerror = () => {
+          console.error('Error reading file:', file.name)
+        }
+        reader.readAsText(file)
+      } else {
+        console.warn(`Unsupported file type: ${file.type} for file: ${file.name}`)
+        alert(`Unsupported file type. Please upload a text file or code file (${allowedExtensions.join(', ')})`)
       }
-      reader.readAsText(file)
     }
   }
 
@@ -103,15 +143,17 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
       
       <div 
         className="flex-1 relative min-h-0 md:rounded-bl-lg bg-white dark:bg-[#0f172a]"
+        onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
         {isDragOver && (
-          <div className="absolute inset-0 bg-blue-600 bg-opacity-20 border-2 border-dashed border-blue-400 rounded-lg flex items-center justify-center z-50">
-            <div className="text-center">
-              <FileText className="w-12 h-12 text-blue-400 mx-auto mb-2" />
-              <p className="text-blue-400 font-medium">Drop your file here</p>
+          <div className="absolute inset-0 bg-blue-600 bg-opacity-30 border-2 border-dashed border-blue-500 rounded-lg flex items-center justify-center z-50 backdrop-blur-sm">
+            <div className="text-center bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+              <FileText className="w-16 h-16 text-blue-500 mx-auto mb-4" />
+              <p className="text-blue-600 dark:text-blue-400 font-semibold text-lg mb-2">Drop your file here</p>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">Supported: .js, .ts, .py, .java, .json, .xml, .yaml, .csv and more</p>
             </div>
           </div>
         )}
