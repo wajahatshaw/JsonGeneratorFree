@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Menu, X, Download, Copy, Sun, Moon } from 'lucide-react'
 import { UserButton, useUser } from '@clerk/nextjs'
 import ToolbarGradientMenu from '@/components/ui/toolbar-gradient-menu'
@@ -18,12 +19,31 @@ interface HeaderProps {
 export function Header({ onMenuClick, onExport, onCopy, onSignIn, hasData = false }: HeaderProps) {
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
+  const [isHydrated, setIsHydrated] = useState(false)
   const { isSignedIn, user } = useUser()
+  const pathname = usePathname()
+
+  // Handle hydration
+  useEffect(() => {
+    setIsHydrated(true)
+    // Check for existing dark mode preference
+    const isDark = document.documentElement.classList.contains('dark')
+    setIsDarkMode(isDark)
+  }, [])
+
+  // Helper function to determine if a link is active
+  const isActive = (path: string) => {
+    if (path === '/') {
+      return pathname === '/'
+    }
+    return pathname.startsWith(path)
+  }
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode)
+    const newDarkMode = !isDarkMode
+    setIsDarkMode(newDarkMode)
     // Toggle dark class on document
-    if (!isDarkMode) {
+    if (newDarkMode) {
       document.documentElement.classList.add('dark')
     } else {
       document.documentElement.classList.remove('dark')
@@ -77,19 +97,54 @@ export function Header({ onMenuClick, onExport, onCopy, onSignIn, hasData = fals
 
         {/* Center - Navigation Links (Desktop) */}
         <nav className="hidden lg:flex items-center space-x-6 flex-1 justify-center">
-          <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">
+          <Link 
+            href="/" 
+            className={`transition-colors whitespace-nowrap px-3 py-2 rounded-md ${
+              isActive('/') 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
             Generator
           </Link>
-          <Link href="/blog" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">
+          <Link 
+            href="/blog" 
+            className={`transition-colors whitespace-nowrap px-3 py-2 rounded-md ${
+              isActive('/blog') 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
             Blog
           </Link>
-          <Link href="/docs" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">
+          <Link 
+            href="/docs" 
+            className={`transition-colors whitespace-nowrap px-3 py-2 rounded-md ${
+              isActive('/docs') 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
             Documentation
           </Link>
-          <Link href="/about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">
+          <Link 
+            href="/about" 
+            className={`transition-colors whitespace-nowrap px-3 py-2 rounded-md ${
+              isActive('/about') 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
             About
           </Link>
-          <Link href="/contact" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">
+          <Link 
+            href="/contact" 
+            className={`transition-colors whitespace-nowrap px-3 py-2 rounded-md ${
+              isActive('/contact') 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
             Contact
           </Link>
         </nav>
@@ -131,7 +186,7 @@ export function Header({ onMenuClick, onExport, onCopy, onSignIn, hasData = fals
               className="relative p-2 w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-purple-500 dark:hover:bg-purple-600 hover:scale-110 active:scale-95 transition-all duration-200 ease-in-out group"
               aria-label="Toggle dark mode"
             >
-              {isDarkMode ? (
+              {isHydrated && isDarkMode ? (
                 <Sun className="w-4 h-4 text-gray-700 dark:text-gray-300 group-hover:text-white transition-all duration-300 rotate-0 group-hover:rotate-180" />
               ) : (
                 <Moon className="w-4 h-4 text-gray-700 dark:text-gray-300 group-hover:text-white transition-all duration-300 rotate-0 group-hover:rotate-12" />
@@ -203,35 +258,55 @@ export function Header({ onMenuClick, onExport, onCopy, onSignIn, hasData = fals
         <nav className="px-4 py-3 space-y-2">
           <Link 
             href="/" 
-            className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-all duration-200 hover:translate-x-1"
+            className={`block px-3 py-2 rounded-md transition-all duration-200 hover:translate-x-1 ${
+              isActive('/') 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+            }`}
             onClick={closeMobileNav}
           >
             Generator
           </Link>
           <Link 
             href="/blog" 
-            className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-all duration-200 hover:translate-x-1"
+            className={`block px-3 py-2 rounded-md transition-all duration-200 hover:translate-x-1 ${
+              isActive('/blog') 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+            }`}
             onClick={closeMobileNav}
           >
             Blog
           </Link>
           <Link 
             href="/docs" 
-            className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-all duration-200 hover:translate-x-1"
+            className={`block px-3 py-2 rounded-md transition-all duration-200 hover:translate-x-1 ${
+              isActive('/docs') 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+            }`}
             onClick={closeMobileNav}
           >
             Documentation
           </Link>
           <Link 
             href="/about" 
-            className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-all duration-200 hover:translate-x-1"
+            className={`block px-3 py-2 rounded-md transition-all duration-200 hover:translate-x-1 ${
+              isActive('/about') 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+            }`}
             onClick={closeMobileNav}
           >
             About
           </Link>
           <Link 
             href="/contact" 
-            className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-all duration-200 hover:translate-x-1"
+            className={`block px-3 py-2 rounded-md transition-all duration-200 hover:translate-x-1 ${
+              isActive('/contact') 
+                ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+            }`}
             onClick={closeMobileNav}
           >
             Contact

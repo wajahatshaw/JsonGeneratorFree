@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { FileText, Copy, Download, Eye } from 'lucide-react'
-import { copyToClipboard, downloadFile, formatJson } from '@/lib/utils'
+import { copyToClipboard, downloadFile, formatJson, hasValidJsonContent, hasValidContent } from '@/lib/utils'
+import { getMimeType } from '@/lib/converter'
 import { QuantumPulseLoader } from '@/components/ui/quantum-pulse-loader'
 
 // Dynamically import Monaco Editor for preview
@@ -21,9 +22,10 @@ interface PreviewPanelProps {
   isLoading: boolean
   onCopy?: () => void
   onDownload?: () => void
+  currentFormat?: string
 }
 
-export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPanelProps) {
+export function PreviewPanel({ data, isLoading, onCopy, onDownload, currentFormat = 'JSON' }: PreviewPanelProps) {
   const [viewMode, setViewMode] = useState<'formatted' | 'raw'>('formatted')
   const [isDarkMode, setIsDarkMode] = useState(false) // Always start with light theme
 
@@ -61,10 +63,16 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
   }
 
   const handleDownload = () => {
+    if (!data || !hasValidContent(data)) {
+      return // Don't download if no valid content
+    }
     if (onDownload) {
       onDownload()
     } else {
-      downloadFile(data, 'generated-data.json', 'application/json')
+      // Use the current format for the filename and MIME type
+      const extension = currentFormat.toLowerCase() === 'yaml' ? 'yml' : currentFormat.toLowerCase()
+      const mimeType = getMimeType(currentFormat)
+      downloadFile(data, `generated-data.${extension}`, mimeType)
     }
   }
 
@@ -140,17 +148,35 @@ export function PreviewPanel({ data, isLoading, onCopy, onDownload }: PreviewPan
             <div className="absolute top-4 right-4 flex space-x-2">
               <button
                 onClick={handleCopy}
-                className="p-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors"
-                title="Copy to clipboard"
+                disabled={!data || !hasValidContent(data)}
+                className={`p-2 rounded-lg transition-colors ${
+                  !data || !hasValidContent(data)
+                    ? 'bg-gray-100 dark:bg-gray-800 cursor-not-allowed opacity-50'
+                    : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
+                }`}
+                title={!data || !hasValidContent(data) ? "No valid data to copy" : "Copy to clipboard"}
               >
-                <Copy className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                <Copy className={`w-4 h-4 ${
+                  !data || !hasValidContent(data)
+                    ? 'text-gray-400 dark:text-gray-600'
+                    : 'text-gray-700 dark:text-gray-300'
+                }`} />
               </button>
               <button
                 onClick={handleDownload}
-                className="p-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors"
-                title="Download as JSON"
+                disabled={!data || !hasValidContent(data)}
+                className={`p-2 rounded-lg transition-colors ${
+                  !data || !hasValidContent(data)
+                    ? 'bg-gray-100 dark:bg-gray-800 cursor-not-allowed opacity-50'
+                    : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
+                }`}
+                title={!data || !hasValidContent(data) ? "No valid data to download" : `Download as ${currentFormat}`}
               >
-                <Download className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                <Download className={`w-4 h-4 ${
+                  !data || !hasValidContent(data)
+                    ? 'text-gray-400 dark:text-gray-600'
+                    : 'text-gray-700 dark:text-gray-300'
+                }`} />
               </button>
             </div>
           </>

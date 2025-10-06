@@ -9,7 +9,7 @@ import { PreviewPanel } from '@/components/PreviewPanel'
 import { JsonGeneratorSidebar } from '@/components/ui/JsonGeneratorSidebar'
 import { AdSense } from '@/components/AdSense'
 import { analyzeCode, generateMockData } from '@/lib/codeAnalyzer'
-import { formatJson, copyToClipboard, downloadFile } from '@/lib/utils'
+import { formatJson, copyToClipboard, downloadFile, hasValidJsonContent, hasValidContent } from '@/lib/utils'
 import { useToast } from '@/components/Toast'
 import { Template } from '@/lib/templateService'
 import { jsonToXml, jsonToYaml, jsonToCsv, getMimeType } from '@/lib/converter'
@@ -182,8 +182,8 @@ export default function Home() {
   }
 
   const handleCopy = async () => {
-    if (!generatedData) {
-      addToast('No data to copy', 'error')
+    if (!generatedData || !hasValidJsonContent(generatedData)) {
+      addToast('No valid data to copy', 'error')
       return
     }
     try {
@@ -195,8 +195,8 @@ export default function Home() {
   }
 
   const handleExport = () => {
-    if (!generatedData) {
-      addToast('No data to export', 'error')
+    if (!generatedData || !hasValidJsonContent(generatedData)) {
+      addToast('No valid data to export', 'error')
       return
     }
     try {
@@ -235,8 +235,12 @@ export default function Home() {
     addToast(`Template "${template.name}" loaded`, 'success')
   }
 
-  const handleCreateNewTemplate = () => {
-    addToast('New template created and previous content saved', 'success')
+  const handleCreateNewTemplate = (templateCreated: boolean, templateName?: string) => {
+    if (templateCreated && templateName) {
+      addToast(`Template "${templateName}" created successfully!`, 'success')
+    } else {
+      addToast('No content to save as template. Please add some code first.', 'info')
+    }
   }
 
   const handleContentChange = (content: string) => {
@@ -282,7 +286,17 @@ export default function Home() {
   }
 
   const handleExportConverted = () => {
-    const extension = selectedFormat.toLowerCase()
+    if (!convertedData || !hasValidContent(convertedData)) {
+      addToast('No valid data to export', 'error')
+      return
+    }
+    
+    // Get the correct file extension based on the selected format
+    let extension = selectedFormat.toLowerCase()
+    if (extension === 'yaml') {
+      extension = 'yml' // Use .yml extension for YAML files
+    }
+    
     const mimeType = getMimeType(selectedFormat)
     downloadFile(convertedData, `converted-data.${extension}`, mimeType)
     addToast(`Downloaded as ${selectedFormat} file`, 'success')
@@ -360,13 +374,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white flex flex-col w-full max-w-full overflow-x-hidden">
-      <div className="main-layout flex flex-col overflow-hidden flex-1 w-full">
+      <div className="main-layout flex flex-col overflow-hidden flex-1 w-full min-h-[calc(100vh-200px)]">
         <Header 
           onMenuClick={() => setSidebarOpen(!sidebarOpen)}
           onExport={handleExport}
           onCopy={handleCopy}
           onSignIn={() => addToast('Sign In functionality coming soon', 'info')}
-          hasData={!!generatedData}
+          hasData={hasValidJsonContent(generatedData)}
         />
 
         {/* Top Ad Space - Below Header */}
@@ -428,7 +442,7 @@ export default function Home() {
         
         <div className="flex-1 flex flex-col md:flex-row min-h-0 p-2 sm:p-4 w-full">
           <div className="flex-1 flex flex-col md:flex-row min-h-0 max-h-full w-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
-            <div className="flex-1 min-h-[300px] md:min-h-0 md:border-r border-gray-300 dark:border-gray-700 flex flex-col w-full md:w-1/2">
+            <div className="flex-1 min-h-[500px] md:min-h-[600px] md:border-r border-gray-300 dark:border-gray-700 flex flex-col w-full md:w-1/2">
               <CodeEditor
                 value={sourceCode}
                 onChange={setSourceCode}
@@ -436,12 +450,13 @@ export default function Home() {
               />
             </div>
             
-            <div className="flex-1 min-h-[300px] md:min-h-0 border-t md:border-t-0 flex flex-col w-full md:w-1/2">
+            <div className="flex-1 min-h-[500px] md:min-h-[600px] border-t md:border-t-0 flex flex-col w-full md:w-1/2">
               <PreviewPanel
                 data={convertedData || generatedData}
                 isLoading={isGenerating}
                 onCopy={handleCopy}
                 onDownload={handleExportConverted}
+                currentFormat={selectedFormat}
               />
             </div>
           </div>

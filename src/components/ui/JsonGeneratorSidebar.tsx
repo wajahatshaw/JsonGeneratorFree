@@ -9,7 +9,7 @@ import { TemplateService, Template } from "@/lib/templateService";
 
 interface JsonGeneratorSidebarProps {
   onTemplateSelect?: (template: Template) => void;
-  onCreateNew?: () => void;
+  onCreateNew?: (templateCreated: boolean, templateName?: string) => void;
   onSearch?: (query: string) => void;
   currentContent?: string;
   onContentChange?: (content: string) => void;
@@ -85,13 +85,15 @@ export function JsonGeneratorSidebar({
       onContentChange?.('');
       onClearGeneratedData?.();
       
-      // Show success message
-      onCreateNew?.();
+      // Show success message with template name
+      onCreateNew?.(true, templateName);
     } else {
       // Just clear both containers if no content
       onContentChange?.('');
       onClearGeneratedData?.();
-      onCreateNew?.();
+      
+      // Show info message that no template was created
+      onCreateNew?.(false);
     }
   };
 
