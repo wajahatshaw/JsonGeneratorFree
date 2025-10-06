@@ -25,7 +25,6 @@ interface CodeEditorProps {
 export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
   const [isDragOver, setIsDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   // Check for dark mode on mount and when theme changes
@@ -45,31 +44,6 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
     
     return () => observer.disconnect()
   }, [])
-
-  // Handle scroll when editor is empty
-  React.useEffect(() => {
-    const handleScroll = (e: Event) => {
-      const wheelEvent = e as WheelEvent
-      if (!value || value.trim() === '') {
-        // When editor is empty, always scroll the page
-        window.scrollBy(0, wheelEvent.deltaY)
-        wheelEvent.preventDefault()
-        wheelEvent.stopPropagation()
-        wheelEvent.stopImmediatePropagation()
-        return false
-      }
-    }
-
-    // Add event listener to the container div using ref
-    if (containerRef.current) {
-      containerRef.current.addEventListener('wheel', handleScroll, { passive: false, capture: true })
-      return () => {
-        if (containerRef.current) {
-          containerRef.current.removeEventListener('wheel', handleScroll)
-        }
-      }
-    }
-  }, [value])
 
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -168,7 +142,6 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
       </div>
       
       <div 
-        ref={containerRef}
         className="flex-1 relative min-h-0 md:rounded-bl-lg bg-white dark:bg-[#0f172a]"
         onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
@@ -209,35 +182,13 @@ export function CodeEditor({ value, onChange, placeholder }: CodeEditorProps) {
             cursorBlinking: 'smooth',
             cursorSmoothCaretAnimation: 'on',
             readOnly: false,
-            domReadOnly: false,
-            scrollbar: {
-              vertical: (!value || value.trim() === '') ? 'hidden' : 'auto',
-              horizontal: (!value || value.trim() === '') ? 'hidden' : 'auto',
-              verticalScrollbarSize: 8,
-              horizontalScrollbarSize: 8
-            },
-            mouseWheelScrollSensitivity: (!value || value.trim() === '') ? 0 : 1,
-            fastScrollSensitivity: (!value || value.trim() === '') ? 0 : 5
+            domReadOnly: false
           }}
         />
         </div>
         
         {!value && (
-          <div 
-            className="absolute inset-0 pointer-events-auto flex items-center justify-center z-10"
-            onWheel={(e) => {
-              window.scrollBy(0, e.deltaY)
-              e.preventDefault()
-              e.stopPropagation()
-            }}
-            onClick={() => {
-              // Focus the Monaco editor when clicking on placeholder
-              const monacoEditor = document.querySelector('.monaco-editor') as HTMLElement
-              if (monacoEditor) {
-                monacoEditor.focus()
-              }
-            }}
-          >
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-10">
             <div className="text-center text-gray-500 dark:text-gray-400 p-4 rounded-lg">
               <Code className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p className="text-lg font-medium mb-2">Ready to analyze your code</p>
